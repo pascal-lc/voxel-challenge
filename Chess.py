@@ -4,11 +4,11 @@ scene.set_background_color(color=(0.75, 0.75, 0.75))
 scene.set_floor(height=-0.05, color=(0.3, 0.3, 0.3))
 scene.set_directional_light(direction=(1, 1, 0), direction_noise=0.2, color=(0.8, 0.7, 0.6))
 @ti.func
-def set_blocks(st, ed, kd, color):
-  for v in ti.grouped(ti.ndrange((st[0], ed[0]), (st[1], ed[1]), (st[2], ed[2]))): scene.set_voxel(v, kd, color)
+def set_blocks(st, ed, mat, color, color_noise=vec3(0.1)):
+  for v in ti.grouped(ti.ndrange((st[0], ed[0]), (st[1], ed[1]), (st[2], ed[2]))): scene.set_voxel(v, mat, color)
 @ti.func
 def checkerboard(pos, k, color):
-  blocks = vec3(k, 1, k)
+  blocks = ivec3(k, 1, k)
   for v in ti.grouped(ti.ndrange(
       (k*pos[0], k*pos[0]+ blocks[0]), (pos[1], pos[1] + blocks[1]), (k*pos[2], k*pos[2] + blocks[2]))):
     scene.set_voxel(v, 1, color)
@@ -29,7 +29,7 @@ def knight(origin, radius, color, color_noise=vec3(0.1)):
 @ti.func
 def bishop(origin, size, color, color_noise=vec3(0.1)):
   for i in ti.static(range(3)):
-    radius = vec3(1); radius[i] = size[i]
+    radius = ivec3(1); radius[i] = size[i]
     for v in ti.grouped(ti.ndrange((origin[0] - radius[0], origin[0] + radius[0]),
         (origin[1] - radius[1], origin[1] + radius[1]), (origin[2] - radius[2], origin[2] + radius[2]))):
       scene.set_voxel(v, 1, color + color_noise*ti.random())
@@ -43,10 +43,9 @@ def rook(origin, radius, color, color_noise=vec3(0.1)):
       (origin[1] - radius[1], origin[1] + radius[1]), (origin[2] - radius[2], origin[2] + radius[2]))):
     if v.y < origin[1]: scene.set_voxel(v, 1, color + color_noise*ti.random())
     else:
-      set_blocks(vec3(origin[0]-4, origin[1], origin[2]-4), vec3(origin[0]-2, origin[1]+4, origin[2]-2), 1, color)
-      set_blocks(vec3(origin[0]-4, origin[1], origin[2]+2), vec3(origin[0]-2, origin[1]+4, origin[2]+4), 1, color)
-      set_blocks(vec3(origin[0]+2, origin[1], origin[2]-4), vec3(origin[0]+4, origin[1]+4, origin[2]-2), 1, color)
-      set_blocks(vec3(origin[0]+2, origin[1], origin[2]+2), vec3(origin[0]+4, origin[1]+4, origin[2]+4), 1, color)
+        for v in ti.grouped(ti.ndrange(2, 2)):
+          set_blocks(ivec3(origin[0]-4+6*v.x, origin[1], origin[2]-4+6*v.y),
+                   ivec3(origin[0]-2+6*v.x, origin[1]+4, origin[2]-2+6*v.y), 1, color)
 @ti.func
 def queen(origin, radius, color, color_noise=vec3(0.1)):
   for v in ti.grouped(ti.ndrange((origin[0] - radius[0], origin[0] + radius[0]),
