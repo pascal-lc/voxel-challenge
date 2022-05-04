@@ -1,8 +1,12 @@
 # <a name="title">Taichi Voxel Challenge</a>
 
+* wine glass
+
 <p align="center">
 <img src="wineglass.jpg" width="75%"></img>
 </p>
+
+* chess
 
 <p align="center">
 <img src="chess1.jpg" width="75%"></img>
@@ -10,6 +14,12 @@
 
 <p align="center">
 <img src="chess2.jpg" width="75%"></img>
+</p>
+
+* DNA double helix
+
+<p align="center">
+<img src="DNA_double_helix.jpg" width="75%"></img>
 </p>
 
 > Figure: result of `python3 example6.py`. Please replace the image above (`demo.jpg`) with yours, so that other people can immediately see your results :-)
