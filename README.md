@@ -22,6 +22,16 @@
 <img src="DNA_double_helix.jpg" width="75%"></img>
 </p>
 
+* EXPO2010 China pavilion
+
+<p align="center">
+<img src="china_pavilion_night.jpg" width="75%"></img>
+</p>
+
+<p align="center">
+<img src="china_pavilion_day.jpg" width="75%"></img>
+</p>
+
 > Figure: result of `python3 example6.py`. Please replace the image above (`demo.jpg`) with yours, so that other people can immediately see your results :-)
 
 We invite you to create your voxel artwork, by putting your [Taichi](https://github.com/taichi-dev/taichi) code in `main.py`!
